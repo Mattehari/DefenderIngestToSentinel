@@ -199,7 +199,7 @@ You will be asked:
 
 ***
 
-## 📌 Notes, Accuracy & Limits
+## 📌 Notes & Limits
 
 *   **Sampling realism**: `sample` is more representative; `take` returns the **first** rows which may cluster in time or pattern.
 *   **CSV size inflation**: CSV adds quotes, commas, and headers; this tends to **overestimate** record size slightly versus native ingestion. Use larger samples for stability.
@@ -207,6 +207,23 @@ You will be asked:
 *   **API limits**: Advanced Hunting API has throttling—very large sample sizes across many tables may hit rate limits. Increase sample gradually if needed.
 *   **Permissions**: Missing permission/consent produces **empty results** and warnings.
 *   **Regionality**: Advanced Hunting queries operate on Defender XDR data; ensure your tenant and API access are enabled.
+
+***
+
+### 📊 Accuracy vs. Actual Sentinel Ingestion
+
+The estimates produced by this script are based on **sampled CSV sizes** and event counts from the Microsoft 365 Defender Advanced Hunting API. While this provides a strong approximation, actual ingestion measured in **Sentinel’s Cost Analysis workbook** can differ due to:
+
+*   **Serialization and compression** applied during ingestion
+*   **Additional columns or enrichment** added by connectors
+*   **Data shape variations** (e.g., spikes, weekends, or bursty workloads)
+
+**Observed variance:**
+
+*   Typically around **±10%** compared to Sentinel’s reported ingestion
+*   In some cases, differences can range between **10–20%**, especially for tables with highly variable record sizes or when using small sample sizes
+
+> ✅ **Recommendation:** Use this script for **planning and sizing**, but validate with Sentinel’s **Cost Analysis workbook** after enabling ingestion for a few days to fine-tune estimates.
 
 ***
 
